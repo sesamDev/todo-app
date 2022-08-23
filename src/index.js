@@ -24,9 +24,10 @@ appendToTargetClass('.header', headerTitleDOM);
 const topItemContainer = createElement('top-ul', null, 'ul', null);
 const allTodosItem = createElement('side-panel-item', 'allTodos', 'li', "All tasks");
 const urgentTodosItem = createElement('side-panel-item', 'urgentTodos', 'li', "Urgent tasks");
+const addProjectButton = createElement('add-button', 'addProjectButton', 'p', 'Add Project +')
 
 const topItemContainerDOM = createDomElement(topItemContainer);
-const topItemContainerChildren = createDomElement(allTodosItem, urgentTodosItem)
+const topItemContainerChildren = createDomElement(allTodosItem, urgentTodosItem, addProjectButton);
 
 //Add side panel items to the DOM as children
 appendToTargetClass('.side-panel', topItemContainerDOM);

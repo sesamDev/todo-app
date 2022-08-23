@@ -36,6 +36,38 @@
     color: var(--side-panel-items-color);
 }
 
+/* #addProjectButton {
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all, .5sec;
+    -moz-transition: all, .5sec;
+}
+
+#addProjectButton:hover {
+    font-size: 4rem;
+} */
+
+#addProjectButton {
+    font-size: 1em;
+    cursor: pointer;
+    transition: all .5s ease;
+}
+
+#addProjectButton:hover {
+    font-size: 1.1em;
+    color: rgb(49, 49, 49);
+
+}
+
+#addProjectButton:active {
+    font-size: 1.1em;
+    color: rgb(179, 179, 179);
+
+}
+
+
+
+
 .main-content {
     background-color: var(--main-content-bg-color);
 }

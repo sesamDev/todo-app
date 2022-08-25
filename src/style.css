@@ -15,6 +15,10 @@
 
 }
 
+body {
+    position: relative;
+}
+
 .header {
     color: var(--header-title-color);
     height: 50px;
@@ -70,4 +74,156 @@
 
 .main-content {
     background-color: var(--main-content-bg-color);
+}
+
+.form-container {
+    --form-height: 300px;
+    --form-width: 625px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    position: absolute;
+    background-color: var(--side-panel-bg-color);
+    height: var(--form-height);
+    width: var(--form-width);
+    top: 200px;
+    right: calc(100vw/2 - calc(var(--form-width)/2));
+    border-radius: .5rem;
+    box-shadow: 8px 7px 14px 0px rgba(133, 133, 133, 0.75);
+    -webkit-box-shadow: 8px 7px 14px 0px rgba(133, 133, 133, 0.75);
+    -moz-box-shadow: 8px 7px 14px 0px rgba(133, 133, 133, 0.75);
+}
+
+form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: .5fr 1fr 1fr;
+    grid-row: 1 / 3;
+    grid-column: 1 / 3;
+}
+
+form>h2 {
+    margin: 1rem 1rem;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    color: var(--side-panel-items-color)
+}
+
+form>input[type=text] {
+    font-size: 1.2rem;
+    border-radius: .5rem;
+    border: none;
+    padding-left: 1rem;
+    width: 300px;
+    height: 50px;
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    margin-left: 1rem;
+}
+
+form>input[type=text]:hover {
+    border: 1px solid rgba(128, 128, 128, 0.8);
+}
+
+
+form>textarea {
+    resize: none;
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+    height: 150px;
+    margin: 0 0 1rem 1rem;
+    border: none;
+    padding: 1rem 0 0 1rem;
+}
+
+form>textarea:hover {
+    border: 1px solid rgba(128, 128, 128, 0.8);
+}
+
+form>label {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    margin: 1.5rem 0 0 3.5rem;
+    color: var(--side-panel-items-color)
+}
+
+form>input[type=date] {
+    padding-left: 1rem;
+    border-radius: .5rem;
+    border: none;
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    height: 35px;
+    width: 150px;
+    margin: 1rem 0 0 8rem;
+}
+
+form>input[type=date]:hover {
+    border: 1px solid rgba(128, 128, 128, 0.8);
+}
+
+form>input[name=urgency] {
+    border-radius: .5rem;
+    border: none;
+    padding-left: 1rem;
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    height: 35px;
+    width: 150px;
+    margin: 0rem 0 0 8rem;
+}
+
+form>input[name=urgency]:hover {
+    border: 1px solid rgba(128, 128, 128, 0.8);
+}
+
+form>input[name=parentProject] {
+    grid-column: 2/3;
+    grid-row: 2 / 3;
+    border-radius: .5rem;
+    border: none;
+    padding-left: 1rem;
+    height: 35px;
+    width: 150px;
+    margin: 3rem 0 0 8rem;
+}
+
+form>input[name=parentProject]:hover {
+
+    border: 1px solid rgba(128, 128, 128, 0.8);
+}
+
+#submit-button {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+    height: 35px;
+    width: 150px;
+    margin: 3rem 0 0 8rem;
+    background-color: var(--header-bg-color);
+    color: white;
+    font-size: 1.1rem;
+    border-radius: .5rem;
+}
+
+#submit-button:hover {
+    background-color: rgb(59, 180, 93);
+
+}
+
+form>input[type=button] {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+    height: 35px;
+    width: 150px;
+    margin: 6rem 0 0 8rem;
+    color: black;
+    font-size: 1.1rem;
+    border-radius: .5rem;
+    background-color: whitesmoke;
+
+}
+
+form>input[type=button]:hover {
+    background-color: rgb(180, 48, 48);
+
 }

@@ -1,5 +1,6 @@
 import { appendToBody, createDomElement, appendToTargetClass, appendChildrenToParent } from "./utils/dom_utils";
 import { createElement } from "./element/element";
+import { toggleForm } from "./form/form";
 import './style.css'
 
 
@@ -32,3 +33,5 @@ const topItemContainerChildren = createDomElement(allTodosItem, urgentTodosItem,
 //Add side panel items to the DOM as children
 appendToTargetClass('.side-panel', topItemContainerDOM);
 appendToTargetClass('.top-ul', topItemContainerChildren);
+
+toggleForm()

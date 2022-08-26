@@ -1,11 +1,10 @@
-import { createElement } from "../element/element";
-
 //Form container
 const formContainer = document.createElement('div');
 formContainer.classList.add('form-container');
 
 //Form element
 const form = document.createElement('form');
+form.setAttribute('id', 'todoForm');
 
 //Form title
 const formTitle = document.createElement('h2');
@@ -54,11 +53,16 @@ const submitButton = document.createElement('input');
 submitButton.setAttribute('type', 'button');
 submitButton.setAttribute('id', 'submit-button');
 submitButton.setAttribute('value', 'Add task');
+submitButton.addEventListener('click', () => {
+    const formValues = getFormValues();
+    console.log(formValues);
+})
 
 //Discard button
 const discardButton = document.createElement('input');
 discardButton.setAttribute('type', 'button');
 discardButton.setAttribute('value', 'Discard task');
+discardButton.addEventListener('click', toggleForm);
 
 //Parent project list
 const parentProject = document.createElement('input');
@@ -74,22 +78,44 @@ phProject2.setAttribute('value', 'Normal');
 const phProject3 = document.createElement('option');
 phProject3.setAttribute('value', 'Low');
 //Create DOM tree
+formContainer.appendChild(form);
+form.append(formTitle,
+    titleTextInput,
+    descriptionTextArea,
+    dueDateLabel,
+    dueDateInput,
+    urgencyList,
+    urgencyDatalist,
+    parentProject,
+    projectDatalist,
+    submitButton,
+    discardButton);
+urgencyDatalist.append(urgencyHigh, urgencyNormal, urgencyLow);
+projectDatalist.append(phProject1, phProject2, phProject3);
 
+//Used to clear form when toggeling it
+function clearForm() {
+    form.reset();
+}
+
+//Get the values entered to the form
+function getFormValues() {
+    let elements = document.getElementById("todoForm").elements;
+    let obj = {};
+    for (var i = 0; i < elements.length; i++) {
+        let item = elements.item(i);
+        obj[item.name] = item.value;
+    }
+
+    return JSON.stringify(obj);
+}
 
 export function toggleForm() {
-    document.body.appendChild(formContainer);
-    formContainer.appendChild(form);
-    form.append(formTitle,
-        titleTextInput,
-        descriptionTextArea,
-        dueDateLabel,
-        dueDateInput,
-        urgencyList,
-        urgencyDatalist,
-        parentProject,
-        projectDatalist,
-        submitButton,
-        discardButton);
-    urgencyDatalist.append(urgencyHigh, urgencyNormal, urgencyLow);
-    projectDatalist.append(phProject1, phProject2, phProject3);
+    if (document.querySelector('.form-container') === null) {
+        document.body.appendChild(formContainer);
+    } else {
+        document.body.removeChild(formContainer)
+        clearForm();
+    }
+
 }

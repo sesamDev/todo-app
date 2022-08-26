@@ -30,8 +30,15 @@ const addProjectButton = createElement('add-button', 'addProjectButton', 'p', 'A
 const topItemContainerDOM = createDomElement(topItemContainer);
 const topItemContainerChildren = createDomElement(allTodosItem, urgentTodosItem, addProjectButton);
 
+//---MAIN CONTENT---
+//Add task button
+const addTaskButton = document.createElement('button');
+addTaskButton.setAttribute('id', 'addTaskButton');
+addTaskButton.innerText = '+';
+appendToTargetClass('.main-content', [addTaskButton]);
+addTaskButton.addEventListener('click', toggleForm);
+
 //Add side panel items to the DOM as children
 appendToTargetClass('.side-panel', topItemContainerDOM);
 appendToTargetClass('.top-ul', topItemContainerChildren);
 
-toggleForm()

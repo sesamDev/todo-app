@@ -1,6 +1,7 @@
 import { appendToBody, createDomElement, appendToTargetClass, appendChildrenToParent } from "./utils/dom_utils";
 import { createElement } from "./element/element";
 import { toggleForm } from "./form/form";
+import { createTodoItem } from "./todo_item/todo_item";
 import './style.css'
 
 
@@ -41,4 +42,3 @@ addTaskButton.addEventListener('click', toggleForm);
 //Add side panel items to the DOM as children
 appendToTargetClass('.side-panel', topItemContainerDOM);
 appendToTargetClass('.top-ul', topItemContainerChildren);
-

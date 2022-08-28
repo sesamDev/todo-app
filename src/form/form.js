@@ -1,3 +1,5 @@
+import { createTodoItem } from "../todo_item/todo_item";
+
 //Form container
 const formContainer = document.createElement('div');
 formContainer.classList.add('form-container');
@@ -55,7 +57,15 @@ submitButton.setAttribute('id', 'submit-button');
 submitButton.setAttribute('value', 'Add task');
 submitButton.addEventListener('click', () => {
     const formValues = getFormValues();
-    console.log(formValues);
+    console.log(formValues.titleText);
+    createTodoItem(formValues.titleText,
+        formValues.textArea,
+        formValues.dueDate,
+        formValues.urgency,
+        formValues.parentProject);
+    toggleForm();
+
+
 })
 
 //Discard button
@@ -107,7 +117,7 @@ function getFormValues() {
         obj[item.name] = item.value;
     }
 
-    return JSON.stringify(obj);
+    return obj;
 }
 
 export function toggleForm() {

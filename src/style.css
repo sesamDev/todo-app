@@ -36,7 +36,11 @@ body {
     background-color: var(--header-bg-color);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+}
+
+.header>h1 {
+    margin-left: 1rem;
 }
 
 .side-panel {
@@ -88,8 +92,16 @@ body {
 
 }
 
+.main-content>h2 {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    justify-self: center;
+    margin-top: .5rem;
+}
+
 #addTaskButton {
     grid-row: 1 / 2;
+    grid-column: 1 / 2;
     height: 50px;
     width: 50px;
     background-color: var(--side-panel-bg-color);

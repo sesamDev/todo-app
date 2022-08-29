@@ -79,6 +79,27 @@ body {
 
 }
 
+#projectLi {
+    transform-origin: left top;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -webkit-transition: all .5s ease;
+}
+
+#projectLi:hover {
+    transform: scale(1.1);
+    color: rgb(49, 49, 49);
+
+}
+
+#projectLi:active {
+    font-size: 1.1em;
+    color: rgb(179, 179, 179);
+
+}
+
 
 
 

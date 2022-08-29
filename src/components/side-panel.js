@@ -1,10 +1,13 @@
 import { createUl } from '../utils/dom_utils'
+import { setContentTitle } from './main-content';
 
 
 //Doc fragment for creating the DOM tree
 let fragmnt = document.createDocumentFragment();
 
 export const PROJECTS = [];
+export let active_project = '';
+
 //Items array to store the different menu options.
 const items = ['All tasks',
     'Urgent tasks'
@@ -38,23 +41,38 @@ inputField.addEventListener('keydown', (e) => {
         inputField.classList.add('hidden');
         appendProjectToDom();
         resetProjectInput();
+        sidePanel.lastChild.lastChild.addEventListener('click', (e) => {
+            console.log(e.target.innerText)
+            setActiveProject(e.target.innerText);
+            setContentTitle(active_project);
+
+        });
+        sidePanel.lastChild.lastChild.setAttribute('id', 'projectLi');
     };
 });
 //Store the entire Side panel inside of the fragment
 fragmnt.appendChild(sidePanel);
 
 
+function setActiveProject(target) {
+    return active_project = target;
+}
+
 function addToProjectArray(name) {
-    PROJECTS.push(`<li>${name}</li>`);
+    PROJECTS.push(name);
 };
 
 function appendProjectToDom() {
-    return sidePanel.lastChild.innerHTML += PROJECTS[PROJECTS.length - 1];
+    const el = document.createElement('li');
+    el.innerText = `${PROJECTS[PROJECTS.length - 1]}`
+    return sidePanel.lastChild.appendChild(el);
 }
 
 function resetProjectInput() {
     inputField.value = "";
 };
+
+
 
 
 //Function to be used in index.js to initialize the side panel

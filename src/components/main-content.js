@@ -8,9 +8,9 @@ const mainContent = document.createElement('div');
 mainContent.classList.add('main-content');
 
 //Creating and adding top Text
-const topText = document.createElement('h2');
-topText.innerText = 'Welcome to TODO Organizer'
-mainContent.appendChild(topText);
+const contentTitle = document.createElement('h2');
+contentTitle.innerText = 'Welcome to TODO Organizer'
+mainContent.appendChild(contentTitle);
 
 //Add task button
 const addTaskButton = document.createElement('button');
@@ -25,4 +25,8 @@ fragmnt.appendChild(mainContent);
 //Function to be used in index.js to initialize the side panel
 export function initMainContent() {
     return document.body.appendChild(fragmnt);
+}
+
+export function setContentTitle(current_project) {
+    return contentTitle.innerText = current_project;
 }

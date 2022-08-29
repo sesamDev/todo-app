@@ -1,3 +1,6 @@
+import { createUl } from '../utils/dom_utils'
+
+
 //Doc fragment for creating the DOM tree
 let fragmnt = document.createDocumentFragment();
 
@@ -40,14 +43,6 @@ inputField.addEventListener('keydown', (e) => {
 //Store the entire Side panel inside of the fragment
 fragmnt.appendChild(sidePanel);
 
-//Function to aid in creating UL's, takes an array of items.
-function createUl(items) {
-    let ul = document.createElement('ul');
-    for (let i = 0; i < items.length; i++) {
-        ul.innerHTML += `<li>${items[i]}</li>`;
-    }
-    return ul;
-};
 
 function addToProjectArray(name) {
     PROJECTS.push(`<li>${name}</li>`);

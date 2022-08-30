@@ -10,10 +10,37 @@ let fragmnt = document.createDocumentFragment();
 export const PROJECTS = [];
 export let active_project = '';
 
-//Items array to store the different menu options.
-const items = ['All tasks',
-    'Urgent tasks'
-];
+//Items for different menu options.
+const optionAllTasks = document.createElement('li');
+optionAllTasks.innerText = 'All tasks';
+optionAllTasks.setAttribute('id', 'projectLi');
+
+const optionUrgentTasks = document.createElement('li');
+optionUrgentTasks.innerText = 'Urgent tasks';
+optionUrgentTasks.setAttribute('id', 'projectLi');
+
+const addProjectBtn = document.createElement('li');
+addProjectBtn.setAttribute('id', 'addProjectButton');
+addProjectBtn.innerText = 'Add Project';
+
+const inputField = document.createElement('input');
+inputField.setAttribute('id', 'submit_on_enter');
+inputField.classList.add('hidden');
+inputField.setAttribute('type', 'text');
+inputField.setAttribute('name', 'q');
+inputField.setAttribute('placeholder', 'Enter project name');
+
+
+optionAllTasks.addEventListener('click', (e) => {
+    setActiveProject(e.target.innerText);
+    setContentTitle(active_project);
+    renderTodos();
+});
+optionUrgentTasks.addEventListener('click', (e) => {
+    setActiveProject(e.target.innerText);
+    setContentTitle(active_project);
+    renderTodos();
+});
 
 
 //Creating the main Side panel div
@@ -22,16 +49,17 @@ sidePanel.classList.add('side-panel');
 
 //Creating the top list which contains the Side panels
 //diffrent menu options
-const topList = createUl(items);
+const topList = document.createElement('ul');
+topList.append(optionAllTasks, optionUrgentTasks, addProjectBtn, inputField);
+
 const projectList = createUl(PROJECTS);
-topList.innerHTML += '<li id="addProjectButton">Add project</li>';
-topList.innerHTML += '<li><input id="submit_on_enter" class="hidden" type="text" name="q" placeholder="Enter project name"></li>';
+// topList.innerHTML += '<li id="addProjectButton">Add project</li>';
+// topList.innerHTML += '<li><input id="submit_on_enter" class="hidden" type="text" name="q" placeholder="Enter project name"></li>';
 projectList.innerHTML += '<li><h3>Projects</h3></li>';
 sidePanel.append(topList, projectList);
 
 //Add eventlistner to add project button to create an input field when clicked on.
-const addProjectBtn = sidePanel.querySelector('#addProjectButton');
-const inputField = sidePanel.querySelector('#submit_on_enter');
+// const inputField = sidePanel.querySelector('#submit_on_enter');
 addProjectBtn.addEventListener('click', () => {
     inputField.classList.remove('hidden');
 });
@@ -82,7 +110,15 @@ export function renderTodos() {
     const fragmnt = document.createDocumentFragment();
     const list = getTodoList();
     const active_project = getActiveProject();
-    const todo = list.filter(todo => todo.project == active_project);
+    let todo = list;
+    if (active_project == 'All tasks') {
+        todo = list.map(todo => todo);
+    } else if (active_project == 'Urgent tasks') {
+        todo = list.filter(todo => todo.urgency == 'High');
+    }
+    else {
+        todo = list.filter(todo => todo.project == active_project);
+    }
     if (todo.length <= 0) { return };
     todo.forEach(t => {
         const el = createTodoDomItem(t.title, t.description, t.due_date, t.urgency)

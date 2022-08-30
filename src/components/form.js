@@ -1,4 +1,7 @@
-import { createTodoItem } from "../todo_item/todo_item";
+import { createTodo } from "./todo";
+import { getActiveProject, renderTodos } from "./side-panel";
+import { appendTodoToList } from "./todoList";
+
 
 //Form container
 const formContainer = document.createElement('div');
@@ -57,14 +60,14 @@ submitButton.setAttribute('id', 'submit-button');
 submitButton.setAttribute('value', 'Add task');
 submitButton.addEventListener('click', () => {
     const formValues = getFormValues();
-    console.log(formValues.titleText);
-    createTodoItem(formValues.titleText,
+    let t = createTodo(formValues.titleText,
         formValues.textArea,
         formValues.dueDate,
         formValues.urgency,
-        formValues.parentProject);
+        getActiveProject());
+    appendTodoToList(t);
     toggleForm();
-
+    renderTodos();
 
 })
 
@@ -74,19 +77,6 @@ discardButton.setAttribute('type', 'button');
 discardButton.setAttribute('value', 'Discard task');
 discardButton.addEventListener('click', toggleForm);
 
-//Parent project list
-const parentProject = document.createElement('input');
-parentProject.setAttribute('name', 'parentProject')
-parentProject.setAttribute('list', 'parentProject');
-parentProject.setAttribute('placeholder', 'Project');
-const projectDatalist = document.createElement('datalist');
-projectDatalist.setAttribute('id', 'parentProject');
-const phProject1 = document.createElement('option');
-phProject1.setAttribute('value', 'High');
-const phProject2 = document.createElement('option');
-phProject2.setAttribute('value', 'Normal');
-const phProject3 = document.createElement('option');
-phProject3.setAttribute('value', 'Low');
 //Create DOM tree
 formContainer.appendChild(form);
 form.append(formTitle,
@@ -96,12 +86,9 @@ form.append(formTitle,
     dueDateInput,
     urgencyList,
     urgencyDatalist,
-    parentProject,
-    projectDatalist,
     submitButton,
     discardButton);
 urgencyDatalist.append(urgencyHigh, urgencyNormal, urgencyLow);
-projectDatalist.append(phProject1, phProject2, phProject3);
 
 //Used to clear form when toggeling it
 function clearForm() {

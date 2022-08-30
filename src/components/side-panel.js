@@ -1,5 +1,7 @@
 import { createUl } from '../utils/dom_utils'
 import { setContentTitle } from './main-content';
+import { getTodoList } from './todoList'
+import { clearTodoDomItems, createTodoDomItem } from './todo-card';
 
 
 //Doc fragment for creating the DOM tree
@@ -42,10 +44,9 @@ inputField.addEventListener('keydown', (e) => {
         appendProjectToDom();
         resetProjectInput();
         sidePanel.lastChild.lastChild.addEventListener('click', (e) => {
-            console.log(e.target.innerText)
             setActiveProject(e.target.innerText);
             setContentTitle(active_project);
-
+            renderTodos();
         });
         sidePanel.lastChild.lastChild.setAttribute('id', 'projectLi');
     };
@@ -56,6 +57,10 @@ fragmnt.appendChild(sidePanel);
 
 function setActiveProject(target) {
     return active_project = target;
+}
+
+export function getActiveProject() {
+    return active_project;
 }
 
 function addToProjectArray(name) {
@@ -72,6 +77,21 @@ function resetProjectInput() {
     inputField.value = "";
 };
 
+export function renderTodos() {
+    clearTodoDomItems();
+    const fragmnt = document.createDocumentFragment();
+    const list = getTodoList();
+    const active_project = getActiveProject();
+    const todo = list.filter(todo => todo.project == active_project);
+    if (todo.length <= 0) { return };
+    todo.forEach(t => {
+        const el = createTodoDomItem(t.title, t.description, t.due_date, t.urgency)
+        fragmnt.appendChild(el);
+    });
+
+    return document.querySelector('.main-content').appendChild(fragmnt);
+
+}
 
 
 

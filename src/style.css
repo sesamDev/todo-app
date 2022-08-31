@@ -182,12 +182,14 @@ body {
 .todo-item>p:nth-child(2) {
     grid-column: 1 / 2;
     grid-row: 2 / 4;
+
 }
 
 .todo-item>p:nth-child(3) {
     grid-column: 2 / 3;
     grid-row: 1 / 2;
     text-align: end;
+
 }
 
 .todo-item>p:nth-child(4) {
@@ -198,11 +200,56 @@ body {
 }
 
 .todo-item>p:nth-child(5) {
+    height: 24px;
+    width: 24px;
     grid-column: 2 / 3;
     grid-row: 3 / 4;
-    text-align: end;
+    margin-left: 80%;
+    transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -webkit-transition: all .5s ease;
+}
+
+.todo-item>p:nth-child(5):hover {
+    transform: scale(1.1);
+    color: rgb(49, 49, 49);
 
 }
+
+.todo-item>p:nth-child(5):active {
+    font-size: 1.1em;
+    color: rgb(179, 179, 179);
+
+}
+
+.todo-item>p:nth-child(6) {
+    width: 24px;
+    height: 24px;
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+    margin-left: 90%;
+    transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -webkit-transition: all .5s ease;
+
+}
+
+.todo-item>p:nth-child(6):hover {
+    transform: scale(1.1);
+    color: rgb(49, 49, 49);
+
+}
+
+.todo-item>p:nth-child(6):active {
+    font-size: 1.1em;
+    color: rgb(179, 179, 179);
+
+}
+
+.todo-item>p>svg {
+    fill: green;
+}
+
 
 .form-container {
     --form-height: 300px;

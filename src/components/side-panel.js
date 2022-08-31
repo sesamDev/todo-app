@@ -111,6 +111,7 @@ export function renderTodos() {
     const list = getTodoList();
     const active_project = getActiveProject();
     let todo = list;
+    if (todo.length <= 0) { return };
     if (active_project == 'All tasks') {
         todo = list.map(todo => todo);
     } else if (active_project == 'Urgent tasks') {
@@ -119,14 +120,15 @@ export function renderTodos() {
     else {
         todo = list.filter(todo => todo.project == active_project);
     }
-    if (todo.length <= 0) { return };
     todo.forEach(t => {
-        const el = createTodoDomItem(t.title, t.description, t.due_date, t.urgency)
+        const el = createTodoDomItem(t.title, t.description, t.due_date, t.urgency);
+        el.setAttribute('data-id', t.id);
+        if (t.completed) { el.style.backgroundColor = "#C3FFAE" };
         fragmnt.appendChild(el);
     });
 
     return document.querySelector('.main-content').appendChild(fragmnt);
-
+    //el.style.backgroundColor = "#C3FFAE";
 }
 
 

@@ -1,7 +1,7 @@
-//Doc fragment for creating the DOM tree
-let fragmnt = document.createDocumentFragment();
+// Doc fragment for creating the DOM tree
+const fragmnt = document.createDocumentFragment();
 
-//Create main page elements
+// Create main page elements
 const header = document.createElement("div");
 header.classList.add("header");
 const headerTitle = document.createElement("h1");

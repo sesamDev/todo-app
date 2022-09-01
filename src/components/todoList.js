@@ -1,4 +1,4 @@
-let todoList = [];
+const todoList = [];
 
 export function appendTodoToList(todo) {
   return todoList.push(todo);

@@ -1,5 +1,6 @@
 import { removeTodoFromList, setTodoComplete } from "./todoList";
 import { renderTodos } from "./side-panel";
+
 export function createTodoDomItem(
   title,
   description,

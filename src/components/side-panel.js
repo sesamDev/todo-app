@@ -3,13 +3,13 @@ import { setContentTitle } from "./main-content";
 import { getTodoList } from "./todoList";
 import { clearTodoDomItems, createTodoDomItem } from "./todo-card";
 
-//Doc fragment for creating the DOM tree
-let fragmnt = document.createDocumentFragment();
+// Doc fragment for creating the DOM tree
+const fragmnt = document.createDocumentFragment();
 
 export const PROJECTS = [];
 export let active_project = "";
 
-//Items for different menu options.
+// Items for different menu options.
 const optionAllTasks = document.createElement("li");
 optionAllTasks.innerText = "All tasks";
 optionAllTasks.setAttribute("id", "projectLi");
@@ -40,12 +40,12 @@ optionUrgentTasks.addEventListener("click", (e) => {
   renderTodos();
 });
 
-//Creating the main Side panel div
+// Creating the main Side panel div
 const sidePanel = document.createElement("div");
 sidePanel.classList.add("side-panel");
 
-//Creating the top list which contains the Side panels
-//diffrent menu options
+// Creating the top list which contains the Side panels
+// diffrent menu options
 const topList = document.createElement("ul");
 topList.append(optionAllTasks, optionUrgentTasks, addProjectBtn, inputField);
 
@@ -55,13 +55,13 @@ const projectList = createUl(PROJECTS);
 projectList.innerHTML += "<li><h3>Projects</h3></li>";
 sidePanel.append(topList, projectList);
 
-//Add eventlistner to add project button to create an input field when clicked on.
+// Add eventlistner to add project button to create an input field when clicked on.
 // const inputField = sidePanel.querySelector('#submit_on_enter');
 addProjectBtn.addEventListener("click", () => {
   inputField.classList.remove("hidden");
 });
 
-//Listen to the enter key pressed when adding a new project and create the new project.
+// Listen to the enter key pressed when adding a new project and create the new project.
 inputField.addEventListener("keydown", (e) => {
   if (e.key == "Enter") {
     addToProjectArray(inputField.value);
@@ -76,7 +76,7 @@ inputField.addEventListener("keydown", (e) => {
     sidePanel.lastChild.lastChild.setAttribute("id", "projectLi");
   }
 });
-//Store the entire Side panel inside of the fragment
+// Store the entire Side panel inside of the fragment
 fragmnt.appendChild(sidePanel);
 
 function setActiveProject(target) {
@@ -127,10 +127,10 @@ export function renderTodos() {
   });
 
   return document.querySelector(".main-content").appendChild(fragmnt);
-  //el.style.backgroundColor = "#C3FFAE";
+  // el.style.backgroundColor = "#C3FFAE";
 }
 
-//Function to be used in index.js to initialize the side panel
+// Function to be used in index.js to initialize the side panel
 export function initSidePanel() {
   return document.body.appendChild(fragmnt);
 }

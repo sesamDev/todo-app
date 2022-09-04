@@ -1,8 +1,12 @@
+import { doc } from "prettier";
+import Project from "./projects";
+
 export default class SiteContent {
   static loadWebsite() {
     this.constructMainContent();
     this.constructButtons();
     this.appendInputField();
+    this.constructProjectList();
     this.initButtons();
   }
 
@@ -98,15 +102,100 @@ export default class SiteContent {
     return fragmnt;
   }
 
+  // Method that creates a ul of projects from the project list.
+  static constructProjectList() {
+    const header = document.createElement("h3");
+    header.innerText = "Projects";
+    header.setAttribute("id", "projectHeader");
+
+    const projects = Project.getProjectList();
+    const ul = this.createUL(projects);
+
+    this.appendToSidepanel(header);
+    this.appendToSidepanel(ul);
+  }
+
+  static removeProjectButton() {
+    const icon = `<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" />
+    </svg>`;
+
+    const el = document.createElement("span");
+    el.innerHTML = icon;
+    return el;
+  }
+
+  static renderProjectList() {
+    const ul = document.querySelector(".side-panel>ul");
+    this.clearProjectList(ul);
+    this.updateProjectList(ul);
+    this.setChildrenID(ul, "projectLi");
+    this.initRemoveProjectButtons();
+  }
+
+  static setChildrenID(element, id) {
+    const { children } = element;
+    const array = Array.from(children);
+
+    array.forEach((child) => child.setAttribute("id", id));
+  }
+
+  static updateProjectList(ul) {
+    const projects = Project.getProjectList();
+
+    projects.forEach((project) => {
+      const li = document.createElement("li");
+      li.setAttribute("data-id", project.id);
+      li.innerText = project.name;
+      li.appendChild(this.removeProjectButton());
+      ul.appendChild(li);
+    });
+  }
+
+  static clearProjectList(ul) {
+    const { children } = ul;
+    const array = Array.from(children);
+
+    array.forEach((child) => child.remove());
+  }
+
+  // Util method to create an unordered list using an objects name.
+  static createUL(array) {
+    const ul = document.createElement("ul");
+
+    array.forEach((item) => {
+      const li = document.createElement("li");
+      li.innerText = item.name;
+      li.appendChild(this.removeProjectButton());
+      ul.appendChild(li);
+    });
+
+    return ul;
+  }
+
   // Method that creates the input field for adding new projects.
   static sidePanelInputField() {
+    const container = document.createElement("div");
+    container.setAttribute("id", "projectInput");
+    container.classList.add("project-input");
+    container.classList.add("hidden");
+
     const inputField = document.createElement("input");
-    inputField.setAttribute("id", "submit_on_enter");
-    inputField.classList.add("hidden");
+    inputField.setAttribute("id", "projectInputField");
     inputField.setAttribute("type", "text");
     inputField.setAttribute("placeholder", "Enter project name");
 
-    return inputField;
+    const addButton = document.createElement("button");
+    addButton.setAttribute("id", "projectInputAddButton");
+    addButton.innerText = "Add";
+
+    const clearButton = document.createElement("button");
+    clearButton.setAttribute("id", "projectInputClearButton");
+    clearButton.innerText = "Clear";
+
+    container.append(inputField, addButton, clearButton);
+
+    return container;
   }
 
   // Method to join all different elements and then add it to document.
@@ -131,23 +220,79 @@ export default class SiteContent {
     return sidePanel.append(element);
   }
 
+  // Methods that consolidates methods used in evenhandlers
+  static handleProjectAddButton() {
+    // Didnt work...
+  }
+
+  // Needed since the buttons arent present when document gets loaded.
+  static initRemoveProjectButtons() {
+    const removeProjectButtons = document.querySelectorAll("#projectLi>span");
+    removeProjectButtons.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        const targetID = e.target.parentElement.parentElement.dataset.id;
+        Project.removeProject(targetID);
+        this.renderProjectList();
+      });
+    });
+  }
+
   // Method that attaches event listners to all buttons
   static initButtons() {
     const addProjectButton = document.getElementById("addProjectButton");
     const allButton = document.getElementById("allButton");
     const todayButton = document.getElementById("todayButton");
     const weekButton = document.getElementById("weekButton");
+    const projectInputAddButton = document.getElementById("projectInputAddButton");
+    const projectInputClearButton = document.getElementById("projectInputClearButton");
 
     addProjectButton.addEventListener("click", () => {
-      this.toggleClasses("submit_on_enter", "hidden");
+      this.toggleClasses("projectInput", "hidden");
     });
     allButton.addEventListener("click", this.consoleLogTest);
     todayButton.addEventListener("click", this.consoleLogTest);
     weekButton.addEventListener("click", this.consoleLogTest);
+    projectInputAddButton.addEventListener("click", () => {
+      this.createNewProject(this.getProjectInputFieldValue());
+      this.clearProjectInputField();
+      this.toggleClasses("projectInput", "hidden");
+      this.renderProjectList();
+    });
+    projectInputClearButton.addEventListener("click", this.clearProjectInputField);
+    this.initRemoveProjectButtons();
   }
 
   static consoleLogTest() {
     return console.log("test");
+  }
+
+  // Method to take the project input fields value and creates a new project
+  // instance.
+  static createNewProject(name) {
+    const project = new Project(name);
+    this.appendToProjectArray(project);
+  }
+
+  // Method to access the Project class and append a new project intance
+  // to it's project array.
+  static appendToProjectArray(project) {
+    Project.appendToProjectList(project);
+  }
+
+  // Method to clear the value of Input Field when the clear button is pressed.
+  static clearProjectInputField() {
+    const input = document.getElementById("projectInputField");
+    input.value = "";
+  }
+
+  // Method to acces to project input fields value
+  static getProjectInputFieldValue() {
+    const input = document.getElementById("projectInputField");
+    if (input.value === "") {
+      return;
+    }
+    // eslint-disable-next-line consistent-return
+    return input.value;
   }
 
   // Method that takes an id and toggles provided class

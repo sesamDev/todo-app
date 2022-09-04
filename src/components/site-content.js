@@ -2,6 +2,8 @@ import { doc } from "prettier";
 import Project from "./projects";
 
 export default class SiteContent {
+  static activeView = "";
+
   static loadWebsite() {
     this.constructMainContent();
     this.constructButtons();
@@ -131,6 +133,7 @@ export default class SiteContent {
     this.updateProjectList(ul);
     this.setChildrenID(ul, "projectLi");
     this.initRemoveProjectButtons();
+    this.initProjectButtons();
   }
 
   static setChildrenID(element, id) {
@@ -223,6 +226,16 @@ export default class SiteContent {
   // Methods that consolidates methods used in evenhandlers
   static handleProjectAddButton() {
     // Didnt work...
+    this.createNewProject(this.getProjectInputFieldValue());
+    this.clearProjectInputField();
+    this.toggleClasses("projectInput", "hidden");
+    this.renderProjectList();
+  }
+
+  static handleSidePanelButtons(e) {
+    const button = e.target;
+    this.setActiveView(button.innerText);
+    this.setContentTitle();
   }
 
   // Needed since the buttons arent present when document gets loaded.
@@ -233,6 +246,21 @@ export default class SiteContent {
         const targetID = e.target.parentElement.parentElement.dataset.id;
         Project.removeProject(targetID);
         this.renderProjectList();
+      });
+    });
+  }
+
+  // Default content title to All tasks if selected project is deleted
+  static defaultContentTitle() {
+    // Implement later..
+  }
+
+  static initProjectButtons() {
+    const projectButtons = document.querySelectorAll("#projectLi");
+    projectButtons.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        this.setActiveView(e.target.innerText);
+        this.setContentTitle();
       });
     });
   }
@@ -249,21 +277,48 @@ export default class SiteContent {
     addProjectButton.addEventListener("click", () => {
       this.toggleClasses("projectInput", "hidden");
     });
-    allButton.addEventListener("click", this.consoleLogTest);
-    todayButton.addEventListener("click", this.consoleLogTest);
-    weekButton.addEventListener("click", this.consoleLogTest);
+    allButton.addEventListener("click", (e) => {
+      this.handleSidePanelButtons(e);
+    });
+    todayButton.addEventListener("click", (e) => {
+      this.handleSidePanelButtons(e);
+    });
+    weekButton.addEventListener("click", (e) => {
+      this.handleSidePanelButtons(e);
+    });
     projectInputAddButton.addEventListener("click", () => {
-      this.createNewProject(this.getProjectInputFieldValue());
-      this.clearProjectInputField();
-      this.toggleClasses("projectInput", "hidden");
-      this.renderProjectList();
+      this.handleProjectAddButton();
     });
     projectInputClearButton.addEventListener("click", this.clearProjectInputField);
     this.initRemoveProjectButtons();
+    this.initProjectButtons();
   }
 
   static consoleLogTest() {
     return console.log("test");
+  }
+
+  // Active view shows the tasks associated with the latest clicked
+  // category in side panel i.e "All tasks" or a current project
+  static setActiveView(name) {
+    if (name === undefined) {
+      return;
+    }
+    this.activeView = name;
+  }
+
+  static getActiveView() {
+    return this.activeView;
+  }
+
+  static getContentTitle() {
+    const title = document.querySelector(".main-content>h2");
+    return title.innerText;
+  }
+
+  static setContentTitle() {
+    const title = document.querySelector(".main-content>h2");
+    title.innerText = this.getActiveView();
   }
 
   // Method to take the project input fields value and creates a new project

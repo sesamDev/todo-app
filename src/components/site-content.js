@@ -1,5 +1,5 @@
-import { doc } from "prettier";
 import Project from "./projects";
+import Todo from "./todo";
 
 export default class SiteContent {
   static activeView = "";
@@ -44,6 +44,10 @@ export default class SiteContent {
     const contentTitle = document.createElement("h2");
     contentTitle.innerText = "All tasks";
     mainContent.appendChild(contentTitle);
+
+    const createTodo = document.createElement("button");
+    createTodo.innerText = "New Task";
+    mainContent.appendChild(createTodo);
 
     // Store the entire Main content inside of the fragment
     fragmnt.appendChild(mainContent);
@@ -273,6 +277,7 @@ export default class SiteContent {
     const weekButton = document.getElementById("weekButton");
     const projectInputAddButton = document.getElementById("projectInputAddButton");
     const projectInputClearButton = document.getElementById("projectInputClearButton");
+    const newTaskButton = document.querySelector(".main-content > button");
 
     addProjectButton.addEventListener("click", () => {
       this.toggleClasses("projectInput", "hidden");
@@ -290,6 +295,9 @@ export default class SiteContent {
       this.handleProjectAddButton();
     });
     projectInputClearButton.addEventListener("click", this.clearProjectInputField);
+    newTaskButton.addEventListener("click", () => {
+      this.addNewTask();
+    });
     this.initRemoveProjectButtons();
     this.initProjectButtons();
   }
@@ -354,5 +362,78 @@ export default class SiteContent {
   static toggleClasses(id, className) {
     const el = document.getElementById(id);
     el.classList.toggle(className);
+  }
+
+  // Render main content when needed
+  static addNewTask() {
+    this.createTask();
+    this.renderMainContent();
+  }
+
+  // Create new todos
+  static createTask() {
+    const task = new Todo("Untitled", this.activeView);
+    Todo.appendToCollection(task);
+  }
+
+  static renderMainContent() {
+    this.clearMainContent();
+    this.renderTodos();
+  }
+
+  static getMainContentTasks() {
+    const tasks = document.querySelectorAll("#task");
+    return tasks;
+  }
+
+  static clearMainContent() {
+    const array = this.getMainContentTasks();
+
+    array.forEach((child) => child.remove());
+  }
+
+  static renderTodos() {
+    const mainContent = document.querySelector(".main-content");
+    mainContent.append(this.createDOMElementsFromTodos());
+    this.taskEventListeners();
+  }
+
+  static taskEventListeners() {
+    const taskTitle = document.querySelectorAll("#task>h3");
+    const taskDate = document.querySelectorAll("#task>p");
+    taskTitle.forEach((t) => {
+      t.addEventListener("click", this.consoleLogTest);
+    });
+    taskDate.forEach((t) => {
+      t.addEventListener("click", this.consoleLogTest);
+    });
+  }
+
+  static createDOMElementsFromTodos() {
+    const fragmnt = document.createDocumentFragment();
+    Todo.unfinishedTasks.forEach((task) => {
+      // Main div
+      const el = document.createElement("div");
+      el.setAttribute("id", "task");
+
+      // Check completed
+      const completed = document.createElement("Input");
+      completed.setAttribute("type", "checkbox");
+      el.appendChild(completed);
+
+      // Set the title
+      const title = document.createElement("h3");
+      title.innerText = task.title;
+      el.appendChild(title);
+
+      // Set the due date
+      const dueDate = document.createElement("p");
+      dueDate.innerText = task.dueDate;
+      el.appendChild(dueDate);
+
+      // Append all to fragmnt
+      fragmnt.appendChild(el);
+    });
+    return fragmnt;
   }
 }

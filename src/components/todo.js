@@ -1,17 +1,31 @@
 import { v4 as uuidv4 } from "uuid";
 
-class Todo {
-  constructor(title, description, due_date, urgency, project) {
+export default class Todo {
+  static unfinishedTasks = [];
+
+  static completedTasks = [];
+
+  constructor(title, project) {
     this.id = uuidv4();
     this.title = title;
-    this.description = description;
-    this.due_date = due_date;
-    this.urgency = urgency;
+    this.dueDate = "2022-09-13";
     this.project = project;
     this.completed = false;
   }
-}
 
-export function createTodo(title, description, due_date, urgency, project) {
-  return new Todo(title, description, due_date, urgency, project);
+  setTitle(name) {
+    this.title = name;
+  }
+
+  setDuedate(date) {
+    this.dueDate = date;
+  }
+
+  setCompleted() {
+    this.completed = true;
+  }
+
+  static appendToCollection(todo) {
+    this.unfinishedTasks.push(todo);
+  }
 }

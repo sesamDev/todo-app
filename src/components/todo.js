@@ -17,7 +17,7 @@ export default class Todo {
     this.title = name;
   }
 
-  setDuedate(date) {
+  setDueDate(date) {
     this.dueDate = date;
   }
 
@@ -27,5 +27,11 @@ export default class Todo {
 
   static appendToCollection(todo) {
     this.unfinishedTasks.push(todo);
+  }
+
+  static getUniqueTask(e) {
+    const todos = this.unfinishedTasks;
+    const task = todos.filter((t) => t.id === e.target.parentElement.dataset.id);
+    return task[0];
   }
 }

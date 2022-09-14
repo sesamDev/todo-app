@@ -401,11 +401,44 @@ export default class SiteContent {
   static taskEventListeners() {
     const taskTitle = document.querySelectorAll("#task>h3");
     const taskDate = document.querySelectorAll("#task>p");
+    const inputTitle = document.querySelectorAll("#titleInput");
+    const inputDate = document.querySelectorAll("#dateInput");
+
     taskTitle.forEach((t) => {
-      t.addEventListener("click", this.consoleLogTest);
+      t.addEventListener("click", (e) => {
+        const task = Todo.getUniqueTask(e);
+        t.parentElement.querySelector("#titleInput").classList.remove("hide");
+      });
     });
     taskDate.forEach((t) => {
-      t.addEventListener("click", this.consoleLogTest);
+      t.addEventListener("click", (e) => {
+        const task = Todo.getUniqueTask(e);
+        t.parentElement.querySelector("#dateInput").classList.remove("hide");
+      });
+    });
+
+    inputTitle.forEach((t) => {
+      t.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          const task = Todo.getUniqueTask(e);
+          const v = t.value;
+          task.setTitle(v);
+          this.renderMainContent();
+          t.classList.add("hide");
+        }
+      });
+    });
+
+    inputDate.forEach((t) => {
+      t.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          const task = Todo.getUniqueTask(e);
+          const v = t.value;
+          task.setDueDate(v);
+          this.renderMainContent();
+          t.classList.add("hide");
+        }
+      });
     });
   }
 
@@ -415,6 +448,7 @@ export default class SiteContent {
       // Main div
       const el = document.createElement("div");
       el.setAttribute("id", "task");
+      el.setAttribute("data-id", task.id);
 
       // Check completed
       const completed = document.createElement("Input");
@@ -425,6 +459,20 @@ export default class SiteContent {
       const title = document.createElement("h3");
       title.innerText = task.title;
       el.appendChild(title);
+
+      // Title input
+      const titleInput = document.createElement("input");
+      titleInput.setAttribute("type", "text");
+      titleInput.setAttribute("id", "titleInput");
+      titleInput.classList.add("hide");
+      el.appendChild(titleInput);
+
+      // Date input
+      const dateInput = document.createElement("input");
+      dateInput.setAttribute("type", "date");
+      dateInput.setAttribute("id", "dateInput");
+      dateInput.classList.add("hide");
+      el.appendChild(dateInput);
 
       // Set the due date
       const dueDate = document.createElement("p");

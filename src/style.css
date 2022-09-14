@@ -167,9 +167,23 @@ body {
   font-weight: bold;
 }
 
+#task > input[type="text"] {
+  grid-column: 2 / 3;
+  position: absolute;
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+}
+#task > input[type="date"] {
+  grid-column: 3/4;
+  position: absolute;
+  right: 70px;
+}
+
 #task > h3 {
   width: max-content;
   cursor: pointer;
+  align-self: center;
+  position: relative;
 }
 
 #task > p {
@@ -193,7 +207,11 @@ body {
 }
 
 #task:hover {
-  transform: scale(1.01);
+  background-color: rgba(228, 228, 228, 0.462);
+}
+
+.hide {
+  display: none;
 }
 
 #addTaskButton {

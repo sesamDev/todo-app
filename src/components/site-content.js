@@ -304,10 +304,6 @@ export default class SiteContent {
     this.initProjectButtons();
   }
 
-  static consoleLogTest() {
-    return console.log("test");
-  }
-
   // Active view shows the tasks associated with the latest clicked
   // category in side panel i.e "All tasks" or a current project
   static setActiveView(name) {

@@ -17,6 +17,10 @@ export default class Todo {
     this.title = name;
   }
 
+  getTitle() {
+    return this.title;
+  }
+
   setDueDate(date) {
     this.dueDate = date;
   }

@@ -240,6 +240,7 @@ export default class SiteContent {
     const button = e.target;
     this.setActiveView(button.innerText);
     this.setContentTitle();
+    this.renderMainContent();
   }
 
   // Needed since the buttons arent present when document gets loaded.
@@ -265,6 +266,7 @@ export default class SiteContent {
       button.addEventListener("click", (e) => {
         this.setActiveView(e.target.innerText);
         this.setContentTitle();
+        this.renderMainContent();
       });
     });
   }
@@ -372,7 +374,7 @@ export default class SiteContent {
 
   // Create new todos
   static createTask() {
-    const task = new Todo("Untitled", this.activeView);
+    const task = new Todo("Click to set title", this.activeView);
     Todo.appendToCollection(task);
   }
 
@@ -388,7 +390,6 @@ export default class SiteContent {
 
   static clearMainContent() {
     const array = this.getMainContentTasks();
-
     array.forEach((child) => child.remove());
   }
 
@@ -405,14 +406,12 @@ export default class SiteContent {
     const inputDate = document.querySelectorAll("#dateInput");
 
     taskTitle.forEach((t) => {
-      t.addEventListener("click", (e) => {
-        const task = Todo.getUniqueTask(e);
+      t.addEventListener("click", () => {
         t.parentElement.querySelector("#titleInput").classList.remove("hide");
       });
     });
     taskDate.forEach((t) => {
-      t.addEventListener("click", (e) => {
-        const task = Todo.getUniqueTask(e);
+      t.addEventListener("click", () => {
         t.parentElement.querySelector("#dateInput").classList.remove("hide");
       });
     });
@@ -444,7 +443,13 @@ export default class SiteContent {
 
   static createDOMElementsFromTodos() {
     const fragmnt = document.createDocumentFragment();
-    Todo.unfinishedTasks.forEach((task) => {
+    // Only create tasks for the current view
+    // If current view is All tasks, show all tasks.
+    let list = Todo.unfinishedTasks;
+    if (this.activeView !== "All tasks") {
+      list = Todo.unfinishedTasks.filter((p) => p.project === this.activeView);
+    }
+    list.forEach((task) => {
       // Main div
       const el = document.createElement("div");
       el.setAttribute("id", "task");

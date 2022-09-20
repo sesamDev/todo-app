@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import DateHandler from "./date_handler";
 
 export default class Todo {
   static unfinishedTasks = [];
@@ -8,7 +9,7 @@ export default class Todo {
   constructor(title, project) {
     this.id = uuidv4();
     this.title = title;
-    this.dueDate = "2022-09-13";
+    this.dueDate = DateHandler.todaysDate();
     this.project = project;
     this.completed = false;
   }

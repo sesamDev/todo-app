@@ -1,3 +1,4 @@
+import DateHandler from "./date_handler";
 import Project from "./projects";
 import Todo from "./todo";
 
@@ -428,7 +429,7 @@ export default class SiteContent {
       t.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
           const task = Todo.getUniqueTask(e);
-          const v = t.value;
+          const v = DateHandler.formatDate(new Date(t.value));
           task.setDueDate(v);
           this.renderMainContent();
           t.classList.add("hide");

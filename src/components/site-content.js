@@ -446,6 +446,13 @@ export default class SiteContent {
     if (this.activeView !== "All tasks") {
       list = Todo.unfinishedTasks.filter((p) => p.project === this.activeView);
     }
+    if (this.activeView === "Week") {
+      list = Todo.unfinishedTasks.filter((p) => DateHandler.taskDueThisWeek(p.dueDate));
+    }
+
+    if (this.activeView === "Today") {
+      list = Todo.unfinishedTasks.filter((p) => DateHandler.taskDueToday(p.dueDate));
+    }
     list.forEach((task) => {
       // Main div
       const el = document.createElement("div");

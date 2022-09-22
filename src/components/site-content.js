@@ -249,7 +249,7 @@ export default class SiteContent {
     const removeProjectButtons = document.querySelectorAll("#projectLi>span");
     removeProjectButtons.forEach((button) => {
       button.addEventListener("click", (e) => {
-        const targetID = e.target.parentElement.parentElement.dataset.id;
+        const targetID = e.target.parentElement.dataset.id;
         Project.removeProject(targetID);
         this.renderProjectList();
       });

@@ -186,9 +186,18 @@ body {
   position: relative;
 }
 
-#task > p {
+#task > #taskDate {
   width: max-content;
   cursor: pointer;
+}
+
+#task > #taskDeleteButton {
+  height: 24px;
+  cursor: pointer;
+}
+
+#taskDeleteButton > * {
+  pointer-events: none;
 }
 
 #task {
@@ -198,7 +207,7 @@ body {
   margin: 0.5rem 4rem;
   border: 1px solid rgba(128, 128, 128, 0.1);
   display: grid;
-  grid-template-columns: 1em auto max-content;
+  grid-template-columns: 1em auto max-content max-content;
   padding: 0 0.5rem;
   align-items: center;
   gap: 10px;

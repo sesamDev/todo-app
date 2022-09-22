@@ -398,9 +398,10 @@ export default class SiteContent {
 
   static taskEventListeners() {
     const taskTitle = document.querySelectorAll("#task>h3");
-    const taskDate = document.querySelectorAll("#task>p");
+    const taskDate = document.querySelectorAll("#taskDate");
     const inputTitle = document.querySelectorAll("#titleInput");
     const inputDate = document.querySelectorAll("#dateInput");
+    const deleteBtn = document.querySelectorAll("#taskDeleteButton");
 
     taskTitle.forEach((t) => {
       t.addEventListener("click", () => {
@@ -434,6 +435,13 @@ export default class SiteContent {
           this.renderMainContent();
           t.classList.add("hide");
         }
+      });
+    });
+
+    deleteBtn.forEach((t) => {
+      t.addEventListener("click", (e) => {
+        Todo.deleteTask(e);
+        this.renderMainContent();
       });
     });
   }
@@ -486,7 +494,16 @@ export default class SiteContent {
       // Set the due date
       const dueDate = document.createElement("p");
       dueDate.innerText = task.dueDate;
+      dueDate.setAttribute("id", "taskDate");
       el.appendChild(dueDate);
+
+      // Delete button
+      const deleteBtn = document.createElement("p");
+      deleteBtn.innerHTML = `<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V5H19V19M17,8.4L13.4,12L17,15.6L15.6,17L12,13.4L8.4,17L7,15.6L10.6,12L7,8.4L8.4,7L12,10.6L15.6,7L17,8.4Z" />
+      </svg>`;
+      deleteBtn.setAttribute("id", "taskDeleteButton");
+      el.appendChild(deleteBtn);
 
       // Append all to fragmnt
       fragmnt.appendChild(el);

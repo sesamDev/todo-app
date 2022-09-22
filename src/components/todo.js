@@ -30,6 +30,13 @@ export default class Todo {
     this.completed = true;
   }
 
+  static deleteTask(e) {
+    const taskToDelete = this.getUniqueTask(e);
+    const updatedList = this.unfinishedTasks.filter((t) => t.id !== taskToDelete.id);
+
+    this.unfinishedTasks = updatedList;
+  }
+
   static appendToCollection(todo) {
     this.unfinishedTasks.push(todo);
   }

@@ -2,24 +2,22 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  mode: "development",
-  devtool: "inline-source-map",
+  mode: "production",
+  devtool: "source-map",
   entry: {
     index: "./src/index.js",
-  },
-  devServer: {
-    static: "./dist",
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: "TODO Organizer",
+      inject: true,
     }),
   ],
   output: {
     filename: "[name].bundle.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
-    publicPath: "",
+    publicPath: "/todo-app/",
   },
   module: {
     rules: [

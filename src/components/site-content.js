@@ -1,4 +1,5 @@
 import DateHandler from "./date_handler";
+import LocalStorage from "./local_storage";
 import Project from "./projects";
 import Todo from "./todo";
 
@@ -11,6 +12,28 @@ export default class SiteContent {
     this.appendInputField();
     this.constructProjectList();
     this.initButtons();
+    this.loadFromStorage();
+  }
+
+  static loadFromStorage() {
+    this.loadProjectsFromStorage();
+    this.loadTodosFromStorage();
+    this.renderProjectList();
+    this.renderMainContent();
+  }
+
+  static loadProjectsFromStorage() {
+    if (localStorage.getItem("projects") === "undefined") {
+      return false;
+    }
+    return Project.setProjectList(LocalStorage.loadProjects());
+  }
+
+  static loadTodosFromStorage() {
+    if (localStorage.getItem("todos") === "undefined") {
+      return false;
+    }
+    return Todo.setUnfinishedTasks(LocalStorage.loadTodos());
   }
 
   // Method for creating the header so that it can be added to the site.
@@ -252,6 +275,8 @@ export default class SiteContent {
         const targetID = e.target.parentElement.dataset.id;
         Project.removeProject(targetID);
         this.renderProjectList();
+        this.setContentTitle();
+        LocalStorage.saveProjects(Project.getProjectList);
       });
     });
   }
@@ -296,6 +321,7 @@ export default class SiteContent {
     });
     projectInputAddButton.addEventListener("click", () => {
       this.handleProjectAddButton();
+      LocalStorage.saveProjects(Project.getProjectList());
     });
     projectInputClearButton.addEventListener("click", this.clearProjectInputField);
     newTaskButton.addEventListener("click", () => {
@@ -422,6 +448,7 @@ export default class SiteContent {
           task.setTitle(v);
           this.renderMainContent();
           t.classList.add("hide");
+          LocalStorage.saveTodos(Todo.getUnfinishedTasks());
         }
       });
     });
@@ -434,6 +461,7 @@ export default class SiteContent {
           task.setDueDate(v);
           this.renderMainContent();
           t.classList.add("hide");
+          LocalStorage.saveTodos(Todo.getUnfinishedTasks());
         }
       });
     });
@@ -442,6 +470,7 @@ export default class SiteContent {
       t.addEventListener("click", (e) => {
         Todo.deleteTask(e);
         this.renderMainContent();
+        LocalStorage.saveTodos(Todo.getUnfinishedTasks());
       });
     });
   }

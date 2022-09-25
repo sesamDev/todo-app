@@ -22,6 +22,10 @@ export default class Project {
     return this.projectList;
   }
 
+  static setProjectList(projects) {
+    this.projectList = projects;
+  }
+
   static removeProject(id) {
     const updatedArray = this.projectList.filter((project) => project.id !== id);
     this.projectList = updatedArray;

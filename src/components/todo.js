@@ -46,4 +46,12 @@ export default class Todo {
     const task = todos.filter((t) => t.id === e.target.parentElement.dataset.id);
     return task[0];
   }
+
+  static setUnfinishedTasks(tasks) {
+    this.unfinishedTasks = tasks;
+  }
+
+  static getUnfinishedTasks() {
+    return this.unfinishedTasks;
+  }
 }

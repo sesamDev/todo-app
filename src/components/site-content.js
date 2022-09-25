@@ -18,8 +18,12 @@ export default class SiteContent {
   static loadFromStorage() {
     this.loadProjectsFromStorage();
     this.loadTodosFromStorage();
-    this.renderProjectList();
-    this.renderMainContent();
+    if (Project.getProjectList().length > 0) {
+      this.renderProjectList();
+    }
+    if (Todo.getUnfinishedTasks().length > 0) {
+      this.renderMainContent();
+    }
   }
 
   static loadProjectsFromStorage() {
